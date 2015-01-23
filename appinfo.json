@@ -1,162 +1,154 @@
 {
-    "uuid": "39cc455d-70a6-4219-a85e-530834d0f6f8",
-    "versionCode": 2,
-    "watchapp": {
-        "watchface": true
-    },
+    "appKeys": {},
     "capabilities": [
-        ""
+        "configurable"
     ],
     "companyName": "victorzwl",
-    "appKeys": {},
+    "longName": "MultiTZ",
+    "projectType": "native",
     "resources": {
         "media": [
             {
-                "type": "png",
                 "file": "images/menu_icon_91w.png",
+                "menuIcon": true,
                 "name": "MENU_ICON",
-                "menuIcon": true
+                "type": "png"
             },
             {
-                "type": "png",
-                "file": "images/num_null.png",
-                "name": "IMAGE_NUM_NULL"
-            },
-            {
-                "type": "png",
-                "file": "images/datenum_null.png",
-                "name": "IMAGE_DATENUM_NULL"
-            },
-            {
-                "type": "png",
                 "file": "images/time_format_AM.png",
-                "name": "IMAGE_AM_MODE"
+                "name": "IMAGE_AM_MODE",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/datenum_9.png",
-                "name": "IMAGE_DATENUM_9"
+                "name": "IMAGE_DATENUM_9",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/datenum_8.png",
-                "name": "IMAGE_DATENUM_8"
+                "name": "IMAGE_DATENUM_8",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/datenum_7.png",
-                "name": "IMAGE_DATENUM_7"
+                "name": "IMAGE_DATENUM_7",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/datenum_6.png",
-                "name": "IMAGE_DATENUM_6"
+                "name": "IMAGE_DATENUM_6",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/datenum_5.png",
-                "name": "IMAGE_DATENUM_5"
+                "name": "IMAGE_DATENUM_5",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/datenum_4.png",
-                "name": "IMAGE_DATENUM_4"
+                "name": "IMAGE_DATENUM_4",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/datenum_3.png",
-                "name": "IMAGE_DATENUM_3"
+                "name": "IMAGE_DATENUM_3",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/datenum_2.png",
-                "name": "IMAGE_DATENUM_2"
+                "name": "IMAGE_DATENUM_2",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/datenum_1.png",
-                "name": "IMAGE_DATENUM_1"
+                "name": "IMAGE_DATENUM_1",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/datenum_0.png",
-                "name": "IMAGE_DATENUM_0"
+                "name": "IMAGE_DATENUM_0",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/time_format_PM.png",
-                "name": "IMAGE_PM_MODE"
+                "name": "IMAGE_PM_MODE",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/num_9.png",
-                "name": "IMAGE_NUM_9"
+                "name": "IMAGE_NUM_9",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/num_8.png",
-                "name": "IMAGE_NUM_8"
+                "name": "IMAGE_NUM_8",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/num_7.png",
-                "name": "IMAGE_NUM_7"
+                "name": "IMAGE_NUM_7",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/num_6.png",
-                "name": "IMAGE_NUM_6"
+                "name": "IMAGE_NUM_6",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/num_5.png",
-                "name": "IMAGE_NUM_5"
+                "name": "IMAGE_NUM_5",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/num_4.png",
-                "name": "IMAGE_NUM_4"
+                "name": "IMAGE_NUM_4",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/num_3.png",
-                "name": "IMAGE_NUM_3"
+                "name": "IMAGE_NUM_3",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/num_2.png",
-                "name": "IMAGE_NUM_2"
+                "name": "IMAGE_NUM_2",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/num_1.png",
-                "name": "IMAGE_NUM_1"
+                "name": "IMAGE_NUM_1",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/num_0.png",
-                "name": "IMAGE_NUM_0"
+                "name": "IMAGE_NUM_0",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/time_format_24H.png",
-                "name": "IMAGE_24_HOUR_MODE"
+                "name": "IMAGE_24_HOUR_MODE",
+                "type": "png"
             },
             {
-                "type": "png",
                 "file": "images/background.png",
-                "name": "IMAGE_BACKGROUND"
+                "name": "IMAGE_BACKGROUND",
+                "type": "png"
             },
             {
-                "type": "font",
+                "characterRegex": "[0-9:\u00b0-]",
+                "compatibility": "2.7",
                 "file": "fonts/futura.ttf",
                 "name": "FUTURA_40",
-                "characterRegex": "[0-9:\u00b0-]",
-                "trackingAdjust": -4
+                "trackingAdjust": -4,
+                "type": "font"
             }
         ]
     },
+    "shortName": "MultiTZ",
+    "uuid": "39cc455d-70a6-4219-a85e-530834d0f6f8",
+    "versionCode": 2,
     "versionLabel": "2.0",
-    "longName": "MultiTZ",
-    "shortName": "MultiTZ"
+    "watchapp": {
+        "watchface": true
+    }
 }
