@@ -92,7 +92,7 @@ persist settings = {
 	.tz_one_offset = 8,
 	.tz_two_name = INIT_TZ2_NAME,
 	.tz_two_offset = 1,
-	.local_offset = -8,
+	.local_offset = -7,
 	.hourlyVibe = 1
 };
 	
