@@ -11,6 +11,9 @@
 	
 #define INIT_TZ1_NAME "CHN"
 #define INIT_TZ2_NAME "GER"
+#define INIT_LOCAL_OFFSET (-7)
+#define INIT_TZ1_OFFSET (+8)
+#define INIT_TZ2_OFFSET (+2)
 		
 #define TOTAL_DATE_DIGITS 6
 static GBitmap *date_digits_images[TOTAL_DATE_DIGITS];
@@ -79,9 +82,9 @@ static int valueRead, valueWritten;
 #define SETTINGS_KEY 77
 	
 typedef struct persist {
-	char tz_one_name[3];
+	char tz_one_name[4];
 	int tz_one_offset;
-	char tz_two_name[3];
+	char tz_two_name[4];
 	int tz_two_offset;
 	int local_offset;
 	int hourlyVibe;
@@ -89,10 +92,10 @@ typedef struct persist {
 
 persist settings = {
 	.tz_one_name = INIT_TZ1_NAME,
-	.tz_one_offset = 8,
+	.tz_one_offset = INIT_TZ1_OFFSET,
 	.tz_two_name = INIT_TZ2_NAME,
-	.tz_two_offset = 1,
-	.local_offset = -7,
+	.tz_two_offset = INIT_TZ2_OFFSET,
+	.local_offset = INIT_LOCAL_OFFSET,
 	.hourlyVibe = 1
 };
 	
@@ -142,6 +145,10 @@ static void update_display(struct tm *current_time) {
 	unsigned short display_hour = get_display_hour(current_time->tm_hour);
 	short tzOne_hour = current_time->tm_hour + (settings.tz_one_offset - settings.local_offset);
 	short tzTwo_hour = current_time->tm_hour + (settings.tz_two_offset - settings.local_offset);
+	
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "update_display load local offset %d", settings.local_offset);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "update_display load tz1 offset %d", settings.tz_one_offset);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "update_display load tz2 offset %d", settings.tz_two_offset);
 
 	if (tzOne_hour >= 24)	tzOne_hour -= 24;
 	if (tzOne_hour <   0)	tzOne_hour += 24;
@@ -253,6 +260,7 @@ static void savePersistentSettings() {
 }
 
 void handle_init(void) {
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "init'ing");
  	my_window = window_create();
 
  	window_stack_push(my_window, true);
@@ -311,7 +319,9 @@ void handle_init(void) {
 	
 	//Avoid blank screen
 	text_layer_set_text(tz_one_text_layer, settings.tz_one_name);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Init load tz1 name %s", settings.tz_one_name);
 	text_layer_set_text(tz_two_text_layer, settings.tz_two_name);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Init load tz2 name %s", settings.tz_two_name);
 	time_t now = time(NULL);
     struct tm *tick_time = localtime(&now);
 

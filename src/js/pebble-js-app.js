@@ -41,7 +41,7 @@ function loadLocalData() {
 	mConfig.tztwooffset = parseInt(localStorage.getItem("tztwooffset"));
 	mConfig.localoffset = parseInt(localStorage.getItem("localoffset"));
 	mConfig.hourlyvibe = parseInt(localStorage.getItem("hourlyvibe"));
-	mConfig.configureUrl = "http://www.columbia.edu/~wz2218/multiTZ.html";
+	mConfig.configureUrl = "http://www.googledrive.com/host/0BwhLBoN6lA6QcndzemFKRk42LTQ";
 
 	if(isNaN(mConfig.tzonename)) {
 		mConfig.tzonename = "CA1";
