@@ -1,5 +1,11 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "tz1name": 1,
+        "tz1offset": 2,
+        "tz2name": 3,
+        "tz2offset": 4,
+        "tzlocaloffset": 0
+    },
     "capabilities": [
         "configurable"
     ],

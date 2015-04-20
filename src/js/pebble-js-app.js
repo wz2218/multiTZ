@@ -1,3 +1,4 @@
+/*
 var mConfig = {};
 
 Pebble.addEventListener("ready", function(e) {
@@ -76,3 +77,16 @@ function returnConfigToPebble() {
     "branding_mask":parseInt(mConfig.branding_mask)
   });    
 }
+*/
+
+Pebble.addEventListener("showConfiguration",
+  function(e) {
+    Pebble.openURL("http://pebble-config.herokuapp.com/config?title=Timezone%20Settings&fields=Local%20Timezone%20UTC%20Offset,Timezone%201%20Name,Timezone%201%20UTC%20Offset,Timezone%202%20Name,Timezone%202%20UTC%20Offset"); // our dyanmic configuration page
+  }
+);
+Pebble.addEventListener("webviewclosed",
+  function(e) {
+    var configuration = JSON.parse(e.response);
+    Pebble.sendAppMessage(configuration);
+  }
+);
