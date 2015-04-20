@@ -1,7 +1,8 @@
 multiTZ
 =======
 
-pebble multiTZ watchface
-A watch face that has three timezones.
-Setting timezones will be in config page, coming soon.
-Email zhangwe0117@gmail.com for a custom build for now.
+https://apps.getpebble.com/applications/53657b1314acdb101d000074
+
+A multi-timezone watchface. Names and UTC offsets for time zones are configurable.
+
+Thanks to JosephPintozzi for the quick config page.
