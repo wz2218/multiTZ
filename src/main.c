@@ -381,8 +381,12 @@ void handle_init(void) {
 	}
 	
 	//Avoid blank screen
+	if(!strcmp(settings.tz_one_name,""))
+			strcpy(settings.tz_one_name, "TZ1");
 	text_layer_set_text(tz_one_text_layer, settings.tz_one_name);
 	//APP_LOG(APP_LOG_LEVEL_DEBUG, "Init load tz1 name %s", settings.tz_one_name);
+	if(!strcmp(settings.tz_two_name,""))
+			strcpy(settings.tz_two_name, "TZ2");
 	text_layer_set_text(tz_two_text_layer, settings.tz_two_name);
 	//APP_LOG(APP_LOG_LEVEL_DEBUG, "Init load tz2 name %s", settings.tz_two_name);
 	time_t now = time(NULL);
