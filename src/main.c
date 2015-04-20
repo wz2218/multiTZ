@@ -9,15 +9,24 @@
 #define HOUR_VIBRATION_START 8
 #define HOUR_VIBRATION_END 23
 	
-#define INIT_TZ1_NAME "CHN"
-#define INIT_TZ2_NAME "GER"
-#define INIT_LOCAL_OFFSET (-7)
-#define INIT_TZ1_OFFSET (+8)
-#define INIT_TZ2_OFFSET (+2)
+#define INIT_TZ1_NAME "TZ1"
+#define INIT_TZ2_NAME "TZ2"
+#define INIT_LOCAL_OFFSET (0)
+#define INIT_TZ1_OFFSET (+1)
+#define INIT_TZ2_OFFSET (-1)
 		
 #define TOTAL_DATE_DIGITS 6
 static GBitmap *date_digits_images[TOTAL_DATE_DIGITS];
 static BitmapLayer *date_digits_layers[TOTAL_DATE_DIGITS];
+
+enum {
+	CONFIG_LOCAL_OFFSET = 0x0,
+	CONFIG_TZ1_NAME = 0x1,
+	CONFIG_TZ1_OFFSET = 0x2,
+	CONFIG_TZ2_NAME = 0x3,
+	CONFIG_TZ2_OFFSET = 0x4
+};
+
 
 const int BIG_DIGIT_IMAGE_RESOURCE_IDS[] = {
 	RESOURCE_ID_IMAGE_NUM_0,
@@ -145,10 +154,10 @@ static void update_display(struct tm *current_time) {
 	unsigned short display_hour = get_display_hour(current_time->tm_hour);
 	short tzOne_hour = current_time->tm_hour + (settings.tz_one_offset - settings.local_offset);
 	short tzTwo_hour = current_time->tm_hour + (settings.tz_two_offset - settings.local_offset);
-	
+	/*
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "update_display load local offset %d", settings.local_offset);
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "update_display load tz1 offset %d", settings.tz_one_offset);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "update_display load tz2 offset %d", settings.tz_two_offset);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "update_display load tz2 offset %d", settings.tz_two_offset);*/
 
 	if (tzOne_hour >= 24)	tzOne_hour -= 24;
 	if (tzOne_hour <   0)	tzOne_hour += 24;
@@ -259,13 +268,67 @@ static void savePersistentSettings() {
 	valueWritten = persist_write_data(SETTINGS_KEY, &settings, sizeof(settings));
 }
 
+void in_received_handler(DictionaryIterator *received, void *context) {
+	// incoming message received
+	Tuple *local_offset_tuple = dict_find(received, CONFIG_LOCAL_OFFSET);
+	Tuple *tz1name_tuple = dict_find(received, CONFIG_TZ1_NAME);
+	Tuple *tz1offset_tuple = dict_find(received, CONFIG_TZ1_OFFSET);
+	Tuple *tz2name_tuple = dict_find(received, CONFIG_TZ2_NAME);
+	Tuple *tz2offset_tuple = dict_find(received, CONFIG_TZ2_OFFSET);
+	
+	if(local_offset_tuple) {		
+		// Pull out data
+		settings.local_offset = atoi(local_offset_tuple->value->cstring);
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Found local offset: %d", settings.local_offset);
+		
+		strncpy(settings.tz_one_name, tz1name_tuple->value->cstring, 3);
+		if(!strcmp(settings.tz_one_name,""))
+			strcpy(settings.tz_one_name, "TZ1");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Found tz1 name: %s", settings.tz_one_name);
+		
+		settings.tz_one_offset = atoi(tz1offset_tuple->value->cstring);
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Found tz1 offset: %d", settings.tz_one_offset);
+		
+		strncpy(settings.tz_two_name, tz2name_tuple->value->cstring, 3);
+		if(!strcmp(settings.tz_two_name,""))
+			strcpy(settings.tz_two_name, "TZ2");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Found tz2 name: %s", settings.tz_two_name);
+		
+		settings.tz_two_offset = atoi(tz2offset_tuple->value->cstring);
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Found tz2 offset: %d", settings.tz_two_offset);
+		
+		// Update display
+		text_layer_set_text(tz_one_text_layer, settings.tz_one_name);
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Config_update load tz1 name %s", settings.tz_one_name);
+		text_layer_set_text(tz_two_text_layer, settings.tz_two_name);
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Config_update load tz2 name %s", settings.tz_two_name);
+		time_t now = time(NULL);
+		struct tm *tick_time = localtime(&now);
+		update_display(tick_time);
+		
+		// TODO: load info to persistent storage
+		savePersistentSettings();
+		
+	} else {
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Not Found local offset");
+	}
+}
+
 void handle_init(void) {
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "init'ing");
+	//APP_LOG(APP_LOG_LEVEL_DEBUG, "init'ing");
  	my_window = window_create();
 
  	window_stack_push(my_window, true);
 	
-	//loadPersistentSettings();
+	//APP_LOG(APP_LOG_LEVEL_DEBUG, "Done initializing, pushed window: %p", window);
+
+	//register for messages
+	app_message_register_inbox_received(in_received_handler);
+	const uint32_t inbound_size = 64;
+	const uint32_t outbound_size = 64;
+	app_message_open(inbound_size, outbound_size);
+	
+	loadPersistentSettings();
 	
   	Layer *window_layer = window_get_root_layer(my_window);
   	background_image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND);
@@ -319,9 +382,9 @@ void handle_init(void) {
 	
 	//Avoid blank screen
 	text_layer_set_text(tz_one_text_layer, settings.tz_one_name);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Init load tz1 name %s", settings.tz_one_name);
+	//APP_LOG(APP_LOG_LEVEL_DEBUG, "Init load tz1 name %s", settings.tz_one_name);
 	text_layer_set_text(tz_two_text_layer, settings.tz_two_name);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Init load tz2 name %s", settings.tz_two_name);
+	//APP_LOG(APP_LOG_LEVEL_DEBUG, "Init load tz2 name %s", settings.tz_two_name);
 	time_t now = time(NULL);
     struct tm *tick_time = localtime(&now);
 
@@ -373,7 +436,7 @@ void handle_deinit(void) {
 }
 
 int main(void) {
-	handle_init();
+	handle_init();	
 	app_event_loop();
 	handle_deinit();
 }

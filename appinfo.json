@@ -1,10 +1,10 @@
 {
     "appKeys": {
-        "tz1name": 1,
-        "tz1offset": 2,
-        "tz2name": 3,
-        "tz2offset": 4,
-        "tzlocaloffset": 0
+        "Local Timezone UTC Offset": 0,
+        "Timezone 1 Name": 1,
+        "Timezone 1 UTC Offset": 2,
+        "Timezone 2 Name": 3,
+        "Timezone 2 UTC Offset": 4
     },
     "capabilities": [
         "configurable"
